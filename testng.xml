@@ -8,7 +8,9 @@
     
     <test verbose="2" preserve-order="true" name="D:/Trabajo/automationPractice">
         <classes>
-            <class name="dummyTest"/>
+<!--            <class name="UserLogin"/>-->
+            <class name="UserLogout"/>
         </classes>
+
     </test>
 </suite>
