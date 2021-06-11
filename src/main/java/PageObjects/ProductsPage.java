@@ -1,8 +1,10 @@
 package PageObjects;
 
+import jdk.nashorn.internal.ir.WhileNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,13 @@ public class ProductsPage extends BasePage{
         return getWebElementList(productInfo);
     }
 
+    public List<WebElement> getAddToCartButtons (){
+        return getWebElementList(addToCartButton);
+    }
+
+    public List<WebElement> getProductTitles () {
+        return getWebElementList(productTitle);
+    }
 
     public int getRemoveFromCartButtons (){
         return getWebElementListSize(removeFromCartButtons);
@@ -77,46 +86,50 @@ public class ProductsPage extends BasePage{
         return getElementText(cartQuantity);
     }
 
-    public List<String> getSortedAddedProducts(){
+    public List<String> getAddedProductsName(){
         return addedProducts = addedProducts.stream().sorted().collect(Collectors.toList());
     }
 
 
-    public boolean compareProductsPrices (){
-        int i = 0;
-        List<Double> doublesList = new ArrayList<Double>();
+    public void compareProductsPricesOrder(){
+
+        List<Double> originalPrices = new ArrayList<>();
         getProductsPrices()
                 .forEach(priceWithSymbol -> Stream.of(priceWithSymbol)
                 .map(price -> price.getText().split("\\$"))
                 .flatMap(Stream::of)
                         .filter(priceWithBlanks -> !priceWithBlanks.isEmpty())
-                        .forEach(price -> doublesList.add(Double.parseDouble(price))));
+                        .forEach(price -> originalPrices.add(Double.parseDouble(price))));
 
-        while ((doublesList.size()-1) > i){
-            if (doublesList.get(i) > doublesList.get(i+1)){
-                return false;
-            }
-            i = i +1;
-        }
-        return true;
+        List<Double> copyPrices = originalPrices.stream().sorted().collect(Collectors.toList());
+
+        Assert.assertEquals(originalPrices,copyPrices);
     }
 
     public void addProductsToCart () {
 
-       List<WebElement> productsAvailable = getProductInfo();
-       int productQuantity = (int) ((Math.random() * (productsAvailable.size()+1 - 2)) + 2);
+        List<WebElement> productsAvailable = getProductInfo();
+        List<WebElement> addToCartButtons = getAddToCartButtons();
+        List<WebElement> productTitles = getProductTitles();
+        List<Integer> productIndexes = new ArrayList<>();
 
-        while ( productQuantity  > 0){
-            int productToSelect = (int) ((Math.random() * (productsAvailable.size())));
-            int index = productToSelect+1;
-            productsAvailable.get(productToSelect).findElement(addToCartButton).click();
-            addedProducts.add(productsAvailable.get(productToSelect).findElement(By.xpath("(//div[@class='inventory_item_name'])["+index+"]")).getText());
-            productsAvailable.remove(productToSelect);
+        int productQuantity = (int) ((Math.random() * (productsAvailable.size()+1 - 2)) + 2);
+        while ( productQuantity > 0){
+            productIndexes.add(addItem(productIndexes, productsAvailable.size()));
             productQuantity = productQuantity -1;
         }
 
+        productIndexes.forEach((productIndex) -> {
+            addToCartButtons.get(productIndex).click();
+            addedProducts.add(productTitles.get(productIndex).getText());
+        });
+
     }
 
+    public int addItem (List<Integer> productsToAdd, int maxRangeSize) {
+        int pickedNumber = (int) (Math.random() * (maxRangeSize));
+        return !productsToAdd.contains(pickedNumber) ? pickedNumber : addItem(productsToAdd,maxRangeSize);
+    }
 
 
 }

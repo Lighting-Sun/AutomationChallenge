@@ -20,10 +20,10 @@ public class CartPage extends BasePage{
     By productNames = By.cssSelector("div.inventory_item_name");
     By productPrices = By.cssSelector("div.inventory_item_price");
 
-    public List<String> getSortedProductNames() {
+    public List<String> getProductNames() {
         List<String> stringProductNames = new ArrayList<>();
         getWebElementList(productNames).forEach(webElement -> stringProductNames.add(webElement.getText()));
-        return stringProductNames.stream().sorted().collect(Collectors.toList());
+        return stringProductNames;
     }
 
 

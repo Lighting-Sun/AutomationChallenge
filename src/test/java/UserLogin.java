@@ -41,7 +41,7 @@ public class UserLogin extends base {
         loginPage.setPasswordField("secret_sauce");
         loginPage.clickLoginButton();
 
-        Assert.assertTrue(productsPage.getPageHeaderTitle().equals(expectedHeaderTitle));
+        Assert.assertEquals(expectedHeaderTitle, productsPage.getPageHeaderTitle());
 
     }
 
@@ -71,7 +71,7 @@ public class UserLogin extends base {
         userLoginValid();
         productsPage.clickProductSortContainer();
         productsPage.clickLowToHighSortOption();
-        Assert.assertTrue(productsPage.compareProductsPrices());
+        productsPage.compareProductsPricesOrder();
 
     }
 
@@ -81,10 +81,9 @@ public class UserLogin extends base {
         productsPage.addProductsToCart();
         Assert.assertEquals(productsPage.getRemoveFromCartButtons(), Integer.parseInt(productsPage.getCartQuantity()));
         productsPage.clickOnCart();
-//        Assert.assertEquals(productsPage.getSortedAddedProducts(),cartPage.getSortedProductNames());
+        Assert.assertEquals(productsPage.getAddedProductsName(),cartPage.getProductNames());
 
-        System.out.println(productsPage.getSortedAddedProducts());
-        System.out.println(cartPage.getSortedProductNames());
+
     }
 
 
