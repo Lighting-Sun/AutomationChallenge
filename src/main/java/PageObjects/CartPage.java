@@ -1,31 +1,40 @@
 package PageObjects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class CartPage extends BasePage{
 
-    WebDriver driver;
 
-    public CartPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
+    public CartPage() throws IOException {
+
     }
 
-    By productNames = By.cssSelector("div.inventory_item_name");
-    By productPrices = By.cssSelector("div.inventory_item_price");
+    @FindBy (css = "div.inventory_item_name")
+            private List<WebElement> productNames;
+
+    @FindBy (id = "checkout")
+            private WebElement checkoutButton;
+
 
     public List<String> getProductNames() {
         List<String> stringProductNames = new ArrayList<>();
-        getWebElementList(productNames).forEach(webElement -> stringProductNames.add(webElement.getText()));
+        productNames.forEach(webElement -> stringProductNames.add(webElement.getText()));
         return stringProductNames;
     }
 
+    public WebElement getCheckoutButton (){
+        return checkoutButton;
+    }
 
 
+    public void compareProducts(List<String> addedProductsName) {
+        Assert.assertEquals(getProductNames(),addedProductsName);
+    }
 }

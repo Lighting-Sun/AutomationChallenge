@@ -6,10 +6,13 @@
         <listener class-name="utils.Listeners"/>
     </listeners>
     
-    <test verbose="2" preserve-order="true" name="D:/Trabajo/automationPractice">
+    <test verbose="2" preserve-order="true" name="AutomationChallenge">
         <classes>
-<!--            <class name="UserLogin"/>-->
-            <class name="UserLogout"/>
+            <class name="UserLogin">
+<!--                <methods>-->
+<!--                    <include name="userLogout"></include>-->
+<!--                </methods>-->
+            </class>
         </classes>
 
     </test>

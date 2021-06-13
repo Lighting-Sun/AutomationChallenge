@@ -10,7 +10,7 @@ import org.testng.ITestResult;
 
 import java.io.IOException;
 
-public class Listeners extends base implements ITestListener  {
+public class Listeners extends BrowserFactory implements ITestListener  {
 
     WebDriver driver = null;
     ExtentReports extent = ExtentReporterNG.getExtentReports();
@@ -37,8 +37,9 @@ public class Listeners extends base implements ITestListener  {
        String testCaseName = result.getMethod().getMethodName();
         extentTestThreadLocal.get().fail(result.getThrowable());
         try {
-            driver = (WebDriver)result.getTestClass().getRealClass().getDeclaredField("driver").get(result.getInstance());
-        } catch (IllegalAccessException | NoSuchFieldException e) {
+            driver = BrowserFactory.getDriver();
+//            driver = (WebDriver)result.getTestClass().getRealClass().getDeclaredField("driver").get(result.getInstance());
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

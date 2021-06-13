@@ -1,67 +1,25 @@
 package PageObjects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+import helper.DriverHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.List;
+import java.io.IOException;
 
-public class BasePage {
 
-    WebDriver driver;
-    public BasePage(WebDriver driver) {
-        this.driver = driver;
+public class BasePage extends DriverHelper {
+
+    //using the logger feature! :D
+    public static Logger logger = LogManager.getLogger(BasePage.class.getName());
+
+    public BasePage() throws IOException {
     }
 
-    enum ValidationType {
-        isDisplayed,
-        isEnabled,
-        isSelected
-    }
-
-    public void clickOnWebElement (By elementLocator){
-        driver.findElement(elementLocator).click();
-    }
-
-    public String getElementText (By elementLocator){
-       return driver.findElement(elementLocator).getText();
-    }
-
-    public String getElementAttributeValue (By elementLocator, String attributeName){
-        return driver.findElement(elementLocator).getAttribute(attributeName);
-    }
-
-    public void setField (By elementLocator, String fieldValue){
-        driver.findElement(elementLocator).sendKeys(fieldValue);
-    }
-
-    public List<WebElement> getWebElementList (By elementsLocator){
-        return driver.findElements(elementsLocator);
-    }
-
-    public int getWebElementListSize(By elementsLocator){
-        return driver.findElements(elementsLocator).size();
+    public void openWebSite(){
+        driver.get("https://www.saucedemo.com/");
     }
 
 
-
-    public WebElement getWebElement (By elementLocator){
-        return driver.findElement(elementLocator);
-    }
-
-    public boolean getBooleanComparison(By elementLocator,ValidationType validationType){
-        if (validationType.toString().equalsIgnoreCase("isDisplayed")){
-            return driver.findElement(elementLocator).isDisplayed();
-        }else if (validationType.toString().equalsIgnoreCase("isEnabled")){
-            return driver.findElement(elementLocator).isEnabled();
-        }else if (validationType.toString().equalsIgnoreCase("isSelected")){
-            return driver.findElement(elementLocator).isSelected();
-        }else {
-            Assert.fail("An invalid validation type has been introduced");
-            return false;
-        }
-    }
 
 
 

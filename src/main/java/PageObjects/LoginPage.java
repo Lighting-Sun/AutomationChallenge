@@ -1,43 +1,49 @@
 package PageObjects;
 
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
+
+import java.io.IOException;
 
 
+public class LoginPage extends BasePage {
 
-public class LoginPage extends BasePage{
+    @FindBy (id = "user-name")
+            private WebElement usernameField;
 
-    WebDriver driver;
+    @FindBy (id = "password")
+            private WebElement passwordField;
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
+    @FindBy (id = "login-button")
+            private WebElement loginButton;
+
+    @FindBy (xpath = "//h3[@data-test='error']")
+            private WebElement loginErrorMessage;
+
+    public LoginPage() throws IOException {
     }
 
-    By usernameField = By.id("user-name");
-    By passwordField = By.id("password");
-    By loginButton = By.id("login-button");
-    By loginErrorMessage = By.xpath("//h3[@data-test='error']");
 
-    public void setUsernameField (String username){
-        setField(usernameField,username);
+    public void fillLogInForm(String username, String password){
+        usernameField.sendKeys(username);
+        passwordField.sendKeys(password);
     }
 
-    public void setPasswordField (String password){
-        setField(passwordField,password);
+
+    public WebElement getLoginButton () {
+        return loginButton;
     }
 
-    public void clickLoginButton(){
-        clickOnWebElement(loginButton);
-    }
 
     public String getLoginButtonText (String attributeName) {
-       return getElementAttributeValue(loginButton, attributeName);
+       return loginButton.getAttribute(attributeName);
     }
 
-    public boolean isErrorMessagePresent (){
-        return getBooleanComparison(loginErrorMessage, ValidationType.isDisplayed);
+    public void ValidateErrorMessagePresent (){
+        Assert.assertTrue(loginErrorMessage.isDisplayed());
     }
 
 

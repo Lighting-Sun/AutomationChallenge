@@ -1,93 +1,105 @@
 package PageObjects;
 
-import jdk.nashorn.internal.ir.WhileNode;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ProductsPage extends BasePage{
+public class ProductsPage extends BasePage {
 
-    WebDriver driver;
 
-    public ProductsPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
-    }
 
     private List<String> addedProducts = new ArrayList<>();
 
-    By pageHeaderTitle =  By.xpath("//span[@class='title']");
-    By burgerMenuButton = By.id("react-burger-menu-btn");
-    By logoutSidebarButton = By.id("logout_sidebar_link");
-    By productSortContainer = By.xpath("//select[@class='product_sort_container']");
-    By lowToHighSortOption = By.xpath("//option[contains(text(),'Price (low to high)')]");
-    By productsPrices = By.cssSelector("div.inventory_item_price");
+    @FindBy (xpath = "//span[@class='title']")
+            private WebElement pageHeaderTitle;
 
-    By productInfo = By.xpath("//div[@class='inventory_item_description']");
-    By addToCartButton = By.xpath("//button[contains(text(),'Add to cart')]");
-    By removeFromCartButtons = By.xpath("//button[contains(text(),'Remove')]");
-    By cartQuantity = By.cssSelector("span.shopping_cart_badge");
+    @FindBy (id = "react-burger-menu-btn")
+            private WebElement burgerMenuButton;
 
-    By productTitle = By.xpath("//div[@class='inventory_item_name']");
+    @FindBy (id = "logout_sidebar_link")
+            private WebElement logoutSidebarButton;
+
+    @FindBy (xpath = "//select[@class='product_sort_container']")
+            private WebElement productSortContainer;
+
+    @FindBy (xpath = "//option[contains(text(),'Price (low to high)')]")
+            private WebElement lowToHighSortOption;
+
+    @FindBy (css = "div.inventory_item_price")
+            private List<WebElement> productsPrices;
+
+    @FindBy (xpath = "//div[@class='inventory_item_description']")
+            private List<WebElement> productInfo;
+
+    @FindBy (xpath = "//button[contains(text(),'Add to cart')]")
+            private List<WebElement> addToCartButton;
+
+    @FindBy (xpath = "//button[contains(text(),'Remove')]")
+            private List<WebElement> removeFromCartButton;
+
+    @FindBy (css = "span.shopping_cart_badge")
+            private WebElement cartQuantityBadge;
+
+    @FindBy(xpath = "//div[@class='inventory_item_name']")
+            private List<WebElement> productTitle;
+
+    public ProductsPage() throws IOException {
+    }
 
 
-
-    public String getPageHeaderTitle (){
-        return getElementText(pageHeaderTitle);
+    public WebElement getPageHeaderTitle (){
+        return pageHeaderTitle;
     }
 
     public void clickBurgerMenuButton (){
-        clickOnWebElement(burgerMenuButton);
+        burgerMenuButton.click();
     }
 
-    public void clickLogoutSidebarButton (){
-        clickOnWebElement(logoutSidebarButton);
+    public WebElement getLogoutSidebarButton (){
+        return logoutSidebarButton;
     }
 
-    public void clickProductSortContainer (){
-        clickOnWebElement(productSortContainer);
+    public WebElement getProductSortContainer (){
+        return productSortContainer;
     }
 
-    public void clickLowToHighSortOption (){
-        clickOnWebElement(lowToHighSortOption);
+    public WebElement getLowToHighSortOption (){
+        return lowToHighSortOption;
     }
 
     public List<WebElement> getProductsPrices (){
-        return getWebElementList(productsPrices);
-    }
-
-    public void clickOnCart (){
-        clickOnWebElement(cartQuantity);
+        return productsPrices;
     }
 
     public List<WebElement> getProductInfo (){
-        return getWebElementList(productInfo);
+        return productInfo;
     }
 
     public List<WebElement> getAddToCartButtons (){
-        return getWebElementList(addToCartButton);
+        return addToCartButton;
+    }
+
+    public List<WebElement> getRemoveFromCartButtons(){
+        return removeFromCartButton;
     }
 
     public List<WebElement> getProductTitles () {
-        return getWebElementList(productTitle);
+        return productTitle;
     }
 
-    public int getRemoveFromCartButtons (){
-        return getWebElementListSize(removeFromCartButtons);
-    }
-
-    public String getCartQuantity(){
-        return getElementText(cartQuantity);
+    public WebElement getCartQuantityBadge(){
+        return cartQuantityBadge;
     }
 
     public List<String> getAddedProductsName(){
-        return addedProducts = addedProducts.stream().sorted().collect(Collectors.toList());
+        return addedProducts;
     }
 
 
@@ -106,16 +118,25 @@ public class ProductsPage extends BasePage{
         Assert.assertEquals(originalPrices,copyPrices);
     }
 
-    public void addProductsToCart () {
+    public void compareAddedProductsWithCartNumber(){
+        Assert.assertEquals(getRemoveFromCartButtons().size(), Integer.parseInt(getCartQuantityBadge().getText()));
+    }
 
-        List<WebElement> productsAvailable = getProductInfo();
-        List<WebElement> addToCartButtons = getAddToCartButtons();
+    public void comparePageTittle (String expectedTittle) {
+        Assert.assertEquals(getPageHeaderTitle().getText(),expectedTittle);
+    }
+
+    public void addRandomProductsToCart() {
+
+        addedProducts.clear();
+
+        List<WebElement> addToCartButtons = new ArrayList<>(getAddToCartButtons());
         List<WebElement> productTitles = getProductTitles();
         List<Integer> productIndexes = new ArrayList<>();
 
-        int productQuantity = (int) ((Math.random() * (productsAvailable.size()+1 - 2)) + 2);
+        int productQuantity = (int) ((Math.random() * (addToCartButtons.size()+1 - 2)) + 2);
         while ( productQuantity > 0){
-            productIndexes.add(addItem(productIndexes, productsAvailable.size()));
+            productIndexes.add(addItem(productIndexes, addToCartButtons.size()));
             productQuantity = productQuantity -1;
         }
 
@@ -126,10 +147,35 @@ public class ProductsPage extends BasePage{
 
     }
 
+    /**
+     * @param productsToAdd
+     * @param maxRangeSize
+     * @return
+     */
     public int addItem (List<Integer> productsToAdd, int maxRangeSize) {
         int pickedNumber = (int) (Math.random() * (maxRangeSize));
         return !productsToAdd.contains(pickedNumber) ? pickedNumber : addItem(productsToAdd,maxRangeSize);
     }
+
+    public void AddProductToCartFromName (String productName) {
+
+        addedProducts.clear();
+
+        List<WebElement> addToCartButtons = new ArrayList<>(getAddToCartButtons());
+        List<WebElement> productTitles = getProductTitles();
+
+        int index = 0;
+
+        for (int i = 0 ; i < productTitles.size(); i++) {
+            if (productName.equalsIgnoreCase(productTitles.get(i).getText())){
+                index = i;
+            }
+        }
+
+        addToCartButtons.get(index).click();
+        addedProducts.add(productTitles.get(index).getText());
+    }
+
 
 
 }
