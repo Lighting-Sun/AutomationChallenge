@@ -1,15 +1,16 @@
+package steps;
+
 import PageObjects.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import utils.BrowserFactory;
 
 import java.io.IOException;
 
 
-public class UserLogin extends BasePage {
+public class ChallengeSteps extends BasePage {
 
 
 
@@ -26,7 +27,7 @@ public class UserLogin extends BasePage {
     String expectedCheckoutStepTwoTitle = "CHECKOUT: OVERVIEW";
     String expectedCheckoutCompleteTitle = "CHECKOUT: COMPLETE!";
 
-    public UserLogin() throws IOException {
+    public ChallengeSteps() throws IOException {
     }
 
     @BeforeMethod
@@ -37,13 +38,10 @@ public class UserLogin extends BasePage {
         checkoutStepOnePage = new CheckoutStepOnePage();
         checkoutStepTwoPage = new CheckoutStepTwoPage();
         checkoutCompletePage = new CheckoutCompletePage();
-
-        logger.info("Driver initialized");
     }
 
     @Test
     public void userLoginValid() {
-        logger.info("Navigating to the landing page");
         loginPage.openWebSite();
         loginPage.waitDriverForVisibility(loginPage.getLoginButton());
         loginPage.fillLogInForm("standard_user", "secret_sauce");
@@ -97,7 +95,6 @@ public class UserLogin extends BasePage {
         productsPage.compareAddedProductsWithCartNumber();
         productsPage.getCartQuantityBadge().click();
         cartPage.compareProducts(productsPage.getAddedProductsName());
-        //TODO add a dataProvider!!!!
     }
 
     @Test
@@ -106,14 +103,14 @@ public class UserLogin extends BasePage {
         cartPage.waitDriverForVisibility(cartPage.getCheckoutButton());
         cartPage.getCheckoutButton().click();
         checkoutStepOnePage.waitDriverForVisibility(checkoutStepOnePage.getContinueButton());
-        checkoutStepOnePage.checkPageTitle(expectedCheckoutStepOneTitle);
+        checkoutStepOnePage.checkPageTitle(checkoutStepOnePage.getPageTitle(),expectedCheckoutStepOneTitle);
         checkoutStepOnePage.fillCheckoutForm("name","lastName","code");
         checkoutStepOnePage.getContinueButton().click();
-        checkoutStepTwoPage.checkPageTitle(expectedCheckoutStepTwoTitle);
+        checkoutStepTwoPage.checkPageTitle(checkoutStepTwoPage.getPageTitle(),expectedCheckoutStepTwoTitle);
         checkoutStepTwoPage.waitDriverForVisibility(checkoutStepTwoPage.getFinishButton());
         checkoutStepTwoPage.getFinishButton().click();
         checkoutCompletePage.waitDriverForVisibility(checkoutCompletePage.getPageTitle());
-        checkoutCompletePage.checkPageTitle(expectedCheckoutCompleteTitle);
+        checkoutCompletePage.checkPageTitle(checkoutCompletePage.getPageTitle(),expectedCheckoutCompleteTitle);
         checkoutCompletePage.checkIfConfirmationMessageIsPresent();
 
     }

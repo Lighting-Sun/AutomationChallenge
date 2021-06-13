@@ -46,8 +46,5 @@ public class CheckoutStepOnePage extends BasePage{
         return pageTitle;
     }
 
-    public void checkPageTitle(String expectedTitle){
-        Assert.assertEquals(pageTitle.getText(),expectedTitle);
-    }
 
 }

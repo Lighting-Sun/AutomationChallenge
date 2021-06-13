@@ -14,20 +14,18 @@ public class CheckoutStepTwoPage extends BasePage{
 
     }
 
-
     @FindBy (id = "finish")
             private WebElement finishButton;
 
     @FindBy (css = "span.title")
             private WebElement pageTitle;
 
-
     public WebElement getFinishButton (){
         return finishButton;
     }
 
-    public void checkPageTitle(String expectedTitle){
-        Assert.assertEquals(pageTitle.getText(),expectedTitle);
+    public WebElement getPageTitle(){
+        return pageTitle;
     }
 
 }

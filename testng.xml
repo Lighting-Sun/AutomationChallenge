@@ -8,10 +8,7 @@
     
     <test verbose="2" preserve-order="true" name="AutomationChallenge">
         <classes>
-            <class name="UserLogin">
-<!--                <methods>-->
-<!--                    <include name="userLogout"></include>-->
-<!--                </methods>-->
+            <class name="steps.ChallengeSteps">
             </class>
         </classes>
 

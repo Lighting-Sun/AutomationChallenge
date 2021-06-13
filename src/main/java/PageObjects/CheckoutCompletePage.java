@@ -21,10 +21,6 @@ public class CheckoutCompletePage extends BasePage{
     @FindBy (css = "h2.complete-header")
             private WebElement purchaseConfirmationMessage;
 
-    public void checkPageTitle(String expectedTitle){
-        Assert.assertEquals(pageTitle.getText(),expectedTitle);
-    }
-
     public void checkIfConfirmationMessageIsPresent(){
         Assert.assertTrue(purchaseConfirmationMessage.isDisplayed());
     }
