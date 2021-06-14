@@ -82,6 +82,7 @@ public class ChallengeSteps extends BasePage {
     public void addMultipleProducts() {
         userLoginValid();
         productsPage.addRandomProductsToCart();
+        productsPage.waitDriverForVisibility(productsPage.getCartQuantityBadge());
         productsPage.compareAddedProductsWithCartNumber();
         productsPage.getCartQuantityBadge().click();
         cartPage.compareProducts(productsPage.getAddedProductsName());
