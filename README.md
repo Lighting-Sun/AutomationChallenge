@@ -35,7 +35,7 @@ Download java 8 JDK, you can find it here [Java 8 JDK](https://www.oracle.com/co
 
 1.Download the Maven binary zip archive from here [Maven](https://maven.apache.org/download.cgi)
 
-2.Extract the file and paste it in C:\Program Files
+2.Extract the file using the extract here option and paste it in C:\Program Files
 
 4.Go to Windows settings
 
