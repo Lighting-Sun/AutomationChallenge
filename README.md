@@ -24,7 +24,7 @@ Download java 8 JDK, you can find it here [Java 8 JDK](https://www.oracle.com/co
 
 5.In the System variables section click on New
   * Fill the Variable name field with JAVA_HOME
-  * Fill the Variable value with the folder where java is installed this shoul be something simmilar to: C:\Program Files\Java\jdk1.8.0_281
+  * Fill the Variable value with the folder where java is installed this should be something similar to: C:\Program Files\Java\jdk1.8.0_281
   * Click on ok
   
 6.In the System variables section look for a varibale called Path, click it and click on Edit
