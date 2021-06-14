@@ -47,7 +47,7 @@ Download java 8 JDK, you can find it here [Java 8 JDK](https://www.oracle.com/co
 
 8.In the System variables section click on New
   * Fill the Variable name field with MVN_HOME
-  * Fill the Variable value with the folder where java is installed this shoul be something simmilar to: C:\Program Files\apache-maven-3.6.3-bin\apache-maven-3.6.3
+  * Fill the Variable value with the folder where java is installed this should be something similar to: C:\Program Files\apache-maven-3.6.3-bin\apache-maven-3.6.3
   * Click on OK
   
 9.In the System variables section look for a varibale called Path, click it and click on Edit
