@@ -1,6 +1,10 @@
 # AutomationChallenge
 
-## Tutorial to excecute the test
+## Tutorial to run the project
+
+### Prerequisites
+
+Have a code editor or IDE installed such as Visual Studio Code or IntelliJ
 
 ### Java instalation & Configuration
 
@@ -50,7 +54,17 @@ Download java 8 JDK, you can find it here [Java 8 JDK](https://www.oracle.com/co
   * Click on new and write %MVN_HOME%\bin
   * Click on OK 
  
+### Downloading and Running the project
 
+1.Click on the code button in this repository
 
+2.Select the Download Zip option
 
+3.Extract the .zip file with the Extract here option
 
+4.Place the project folder on the desired location
+
+5.Open it as an IntelliJ Project or with visual studio code
+
+6.Once the project has loaded, go to the terminal and type: mvn test
+  * With this all the seven tests should run
