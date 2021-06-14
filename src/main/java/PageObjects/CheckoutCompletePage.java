@@ -21,6 +21,9 @@ public class CheckoutCompletePage extends BasePage{
     @FindBy (css = "h2.complete-header")
             private WebElement purchaseConfirmationMessage;
 
+    /**
+     * This method checks if the confirmationMessage is displayed in the page
+     */
     public void checkIfConfirmationMessageIsPresent(){
         Assert.assertTrue(purchaseConfirmationMessage.isDisplayed());
     }

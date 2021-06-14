@@ -27,6 +27,11 @@ public class LoginPage extends BasePage {
     }
 
 
+    /**
+     * This method fills the login form
+     * @param username user's username
+     * @param password user's password
+     */
     public void fillLogInForm(String username, String password){
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
@@ -38,6 +43,11 @@ public class LoginPage extends BasePage {
     }
 
 
+    /**
+     * This method is used to return the text inside the login button
+     * @param attributeName the attribute's name for the loginButton WebElement
+     * @return a String with the WebElement's attribute value
+     */
     public String getLoginButtonText (String attributeName) {
        return loginButton.getAttribute(attributeName);
     }

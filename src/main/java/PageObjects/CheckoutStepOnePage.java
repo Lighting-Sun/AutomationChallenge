@@ -32,6 +32,12 @@ public class CheckoutStepOnePage extends BasePage{
             private WebElement pageTitle;
 
 
+    /**
+     * This method fills the form present in the CheckoutStepOnePage
+     * @param firstName user's first name
+     * @param lastName user's last name
+     * @param postalCode user's postal or Zip code
+     */
     public void fillCheckoutForm (String firstName, String lastName, String postalCode){
         firstNameField.sendKeys(firstName);
         lastNameField.sendKeys(lastName);

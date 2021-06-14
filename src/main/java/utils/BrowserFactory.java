@@ -22,7 +22,9 @@ public class BrowserFactory {
     private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 
 
-
+    /**
+     * Initializes a local thread web driver in a browser given the browser value in the data.properties file
+     */
     public static void initializeDriver() throws IOException {
         WebDriver driver;
 
@@ -40,11 +42,11 @@ public class BrowserFactory {
                 driver = new ChromeDriver();
                 break;
             case "firefox":
-                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\geckodriver.exe");
+                System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\geckodriver.exe");
                 driver = new FirefoxDriver();
                 break;
             case "edge":
-                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\msedgedriver.exe");
+                System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\msedgedriver.exe");
                 driver = new EdgeDriver();
                 break;
             default:
@@ -56,6 +58,10 @@ public class BrowserFactory {
         threadDriver.set(driver);
     }
 
+    /**
+     * Initializes a local thread WebDriver, if there's one already initialized, then it returns it
+     * @return a local thread WebDriver
+     */
     public static WebDriver getDriver() throws IOException {
         if (threadDriver.get()==null){
             initializeDriver();
@@ -63,6 +69,9 @@ public class BrowserFactory {
         return (WebDriver) threadDriver.get();
     }
 
+    /**
+     * Quits the local thread driver
+     */
     public static void quitDriver(){
         threadDriver.get().manage().deleteAllCookies();
         threadDriver.get().quit();
@@ -70,7 +79,12 @@ public class BrowserFactory {
     }
 
 
-
+    /**
+     * Method used to take a screenshot and save it in a path
+     * @param testCaseName name of the method that is preceded by the @Test annotation
+     * @param driver a WebDriver
+     * @return where the screenshot will be saved
+     */
     //method to take a screenshot from the driver!!
     public String getScreenshotPath(String testCaseName, WebDriver driver) throws IOException {
         TakesScreenshot takesScreenshot = (TakesScreenshot) driver;

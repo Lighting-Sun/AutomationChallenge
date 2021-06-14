@@ -34,6 +34,10 @@ public class CartPage extends BasePage{
     }
 
 
+    /**
+     * This method compares a list of product names with another one
+     * @param addedProductsName a list of strings that has the name of the products that have been selected
+     */
     public void compareProducts(List<String> addedProductsName) {
         Assert.assertEquals(getProductNames(),addedProductsName);
     }
